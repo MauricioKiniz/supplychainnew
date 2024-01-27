@@ -2,7 +2,6 @@ package com.mksistemas.supply.organization.adapter.rest;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -35,12 +34,36 @@ class OrganizationControllerTest extends BaseIntegrationTest {
 				.getDefaultCreateCommand();
 		String content = serializeCommand(command);
 
-		this.mockMvc
-				.perform(post("/api/v1/organization")
-						.contentType(MediaType.APPLICATION_JSON)
-						.content(content))
-				.andDo(print()).andExpect(status().isCreated())
-				.andExpect(header().string("Location",
-						containsString("/api/v1/organization")));
+		this.mockMvc.perform(post("/api/v1/organization")
+				.contentType(MediaType.APPLICATION_JSON).content(content))
+				.andExpect(status().isCreated()).andExpect(header().string(
+						"Location", containsString("/api/v1/organization")));
 	}
+
+	@Test
+	void shouldCreateOrganizationWithConstraintError() throws Exception {
+
+		CreateOrganizationCommand command = OrganizationManagerSupplier
+				.getCreateCommandWithName(null);
+		String content = serializeCommand(command);
+
+		this.mockMvc.perform(post("/api/v1/organization")
+				.contentType(MediaType.APPLICATION_JSON).content(content))
+				.andExpect(status().is4xxClientError());
+	}
+
+	@Test
+	void shouldCreateOrganizationWithMoreThanOneConstraintError()
+			throws Exception {
+
+		CreateOrganizationCommand command = OrganizationManagerSupplier
+				.getCreateCommandWithNameAndIdentity(null, null);
+		String content = serializeCommand(command);
+
+		this.mockMvc.perform(post("/api/v1/organization")
+				.contentType(MediaType.APPLICATION_JSON).content(content))
+				.andExpect(status().is4xxClientError());
+
+	}
+
 }

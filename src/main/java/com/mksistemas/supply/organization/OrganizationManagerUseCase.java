@@ -12,5 +12,4 @@ public interface OrganizationManagerUseCase {
 			@NotBlank String identity, @NotBlank String countryIsoCode,
 			@NotBlank String zoneId) {
 	}
-
 }

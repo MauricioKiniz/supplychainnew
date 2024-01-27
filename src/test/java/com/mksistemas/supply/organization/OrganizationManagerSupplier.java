@@ -34,4 +34,9 @@ public class OrganizationManagerSupplier {
 				countryIsoCode, "-3");
 	}
 
+	public static CreateOrganizationCommand getCreateCommandWithNameAndIdentity(
+			String name, String identity) {
+		return new CreateOrganizationCommand(name, identity, "BR", "-3");
+	}
+
 }
