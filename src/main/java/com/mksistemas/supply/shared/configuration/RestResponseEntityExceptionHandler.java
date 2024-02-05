@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mksistemas.supply.shared.domain.BusinessException;
+import com.mksistemas.supply.shared.domain.EntityNotFoundException;
 
 import io.micrometer.common.lang.Nullable;
 import jakarta.validation.ConstraintViolationException;
@@ -28,6 +29,7 @@ public class RestResponseEntityExceptionHandler
 
 	private static final String DEFAULT_BUSINESS_FIELDNAME = "business.code";
 	private static final String DEFAULT_CONSTRAINT_FIELDNAME = "constraint.code";
+	private static final String DEFAULT_ENTITYNOTFOUND_FIELDNAME = "entity.notfound.code";
 
 	@ExceptionHandler(value = {BusinessException.class})
 	protected ResponseEntity<Object> handleConflictBusiness(RuntimeException ex,
@@ -48,6 +50,16 @@ public class RestResponseEntityExceptionHandler
 						((ConstraintViolationException) ex).getMessage()));
 		return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(),
 				HttpStatus.BAD_REQUEST, request);
+	}
+
+	@ExceptionHandler(value = {EntityNotFoundException.class})
+	protected ResponseEntity<Object> handleConflictEntityNotFound(
+			RuntimeException ex, WebRequest request) {
+
+		String bodyOfResponse = formatJson(new ResponseError(
+				DEFAULT_ENTITYNOTFOUND_FIELDNAME, ex.getMessage()));
+		return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(),
+				HttpStatus.NOT_FOUND, request);
 	}
 
 	private String formatJson(ResponseError error) {

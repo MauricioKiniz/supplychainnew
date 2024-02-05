@@ -24,7 +24,7 @@ class OrganizacaoController {
 
 	@PostMapping
 	public ResponseEntity<Void> createOrganization(
-			@RequestBody OrganizationManagerUseCase.CreateOrganizationCommand command) {
+			@RequestBody OrganizationManagerUseCase.OrganizationCommand command) {
 		Organization organization = organizationUseCase.create(command);
 		URI location = URI.create(String.format("/api/v1/organization/%s",
 				organization.getId().toString()));

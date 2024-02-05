@@ -15,7 +15,7 @@ import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.mksistemas.supply.organization.OrganizationManagerSupplier;
-import com.mksistemas.supply.organization.OrganizationManagerUseCase.CreateOrganizationCommand;
+import com.mksistemas.supply.organization.OrganizationManagerUseCase.OrganizationCommand;
 import com.mksistemas.supply.shared.library.test.BaseIntegrationTest;
 
 @SpringBootTest
@@ -30,7 +30,7 @@ class OrganizationControllerTest extends BaseIntegrationTest {
 			"/db/clearDatabase.sql"})
 	void shouldCreateOrganization() throws Exception {
 
-		CreateOrganizationCommand command = OrganizationManagerSupplier
+		OrganizationCommand command = OrganizationManagerSupplier
 				.getDefaultCreateCommand();
 		String content = serializeCommand(command);
 
@@ -43,7 +43,7 @@ class OrganizationControllerTest extends BaseIntegrationTest {
 	@Test
 	void shouldCreateOrganizationWithConstraintError() throws Exception {
 
-		CreateOrganizationCommand command = OrganizationManagerSupplier
+		OrganizationCommand command = OrganizationManagerSupplier
 				.getCreateCommandWithName(null);
 		String content = serializeCommand(command);
 
@@ -56,7 +56,7 @@ class OrganizationControllerTest extends BaseIntegrationTest {
 	void shouldCreateOrganizationWithMoreThanOneConstraintError()
 			throws Exception {
 
-		CreateOrganizationCommand command = OrganizationManagerSupplier
+		OrganizationCommand command = OrganizationManagerSupplier
 				.getCreateCommandWithNameAndIdentity(null, null);
 		String content = serializeCommand(command);
 

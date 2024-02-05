@@ -23,7 +23,7 @@ import org.mockito.Captor;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import com.mksistemas.supply.organization.OrganizationManagerSupplier;
-import com.mksistemas.supply.organization.OrganizationManagerUseCase.CreateOrganizationCommand;
+import com.mksistemas.supply.organization.OrganizationManagerUseCase.OrganizationCommand;
 import com.mksistemas.supply.shared.domain.BusinessException;
 import com.mksistemas.supply.shared.library.test.BaseTest;
 import com.mksistemas.supply.shared.library.test.BaseValidationTest;
@@ -35,17 +35,17 @@ class OrganizationManagerCreateUseCaseTest {
 
 	private OrganizationRepository organizationRepository;
 
-	private BaseTest<CreateOrganizationCommand, Organization> testCase;
-	private BaseTest<CreateOrganizationCommand, Set<ConstraintViolation<CreateOrganizationCommand>>> testValidation;
+	private BaseTest<OrganizationCommand, Organization> testCase;
+	private BaseTest<OrganizationCommand, Set<ConstraintViolation<OrganizationCommand>>> testValidation;
 
 	@BeforeEach
 	public void setup() {
 		organizationRepository = mock(OrganizationRepository.class);
-		testCase = new BaseTest<CreateOrganizationCommand, Organization>().when(
+		testCase = new BaseTest<OrganizationCommand, Organization>().when(
 				request -> new OrganizationManageService(organizationRepository)
 						.create(request));
-		testValidation = new BaseTest<CreateOrganizationCommand, Set<ConstraintViolation<CreateOrganizationCommand>>>()
-				.when(request -> new BaseValidationTest<CreateOrganizationCommand>()
+		testValidation = new BaseTest<OrganizationCommand, Set<ConstraintViolation<OrganizationCommand>>>()
+				.when(request -> new BaseValidationTest<OrganizationCommand>()
 						.validate(request))
 				.given(command -> command);
 	}

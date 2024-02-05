@@ -2,12 +2,13 @@ package com.mksistemas.supply.organization.domain;
 
 import com.mksistemas.supply.shared.domain.EntityBase;
 
+import io.hypersistence.tsid.TSID;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity(name = "Organization")
 @Table(name = "organization", schema = "hub")
-public class Organization extends EntityBase {
+public class Organization extends EntityBase<Organization> {
 	private String name;
 	private String identity;
 	private String countryIsoCode;
@@ -55,6 +56,13 @@ public class Organization extends EntityBase {
 
 	public void setZoneId(String zoneId) {
 		this.zoneId = zoneId;
+	}
+
+	@Override
+	public void generateUpdateEvent() {
+		registerEvent(
+				new OrganizationUpdateEvent(TSID.from(getId()).toLowerCase(),
+						name, identity, countryIsoCode, zoneId));
 	}
 
 }

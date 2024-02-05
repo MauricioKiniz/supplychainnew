@@ -1,42 +1,42 @@
 package com.mksistemas.supply.organization;
 
-import com.mksistemas.supply.organization.OrganizationManagerUseCase.CreateOrganizationCommand;
+import com.mksistemas.supply.organization.OrganizationManagerUseCase.OrganizationCommand;
 
 public class OrganizationManagerSupplier {
-	public static CreateOrganizationCommand getDefaultCreateCommand() {
-		return new CreateOrganizationCommand("orgmaster", "1234567890", "BR",
+	public static OrganizationCommand getDefaultCreateCommand() {
+		return new OrganizationCommand("orgmaster", "1234567890", "BR",
 				"-3");
 	}
 
-	public static CreateOrganizationCommand getInvalidCountryIsoCodeCommand() {
-		return new CreateOrganizationCommand("orgmaster", "1234567890", "X1",
+	public static OrganizationCommand getInvalidCountryIsoCodeCommand() {
+		return new OrganizationCommand("orgmaster", "1234567890", "X1",
 				"-3");
 	}
 
-	public static CreateOrganizationCommand getInvalidZoneIdCommand() {
-		return new CreateOrganizationCommand("orgmaster", "1234567890", "BR",
+	public static OrganizationCommand getInvalidZoneIdCommand() {
+		return new OrganizationCommand("orgmaster", "1234567890", "BR",
 				"-9");
 	}
 
-	public static CreateOrganizationCommand getCreateCommandWithName(
+	public static OrganizationCommand getCreateCommandWithName(
 			String name) {
-		return new CreateOrganizationCommand(name, "1234567890", "BR", "-3");
+		return new OrganizationCommand(name, "1234567890", "BR", "-3");
 	}
 
-	public static CreateOrganizationCommand getCreateCommandWithIdentity(
+	public static OrganizationCommand getCreateCommandWithIdentity(
 			String identity) {
-		return new CreateOrganizationCommand("orgmaster", identity, "BR", "-3");
+		return new OrganizationCommand("orgmaster", identity, "BR", "-3");
 	}
 
-	public static CreateOrganizationCommand getCreateCommandWithCountryIsoCode(
+	public static OrganizationCommand getCreateCommandWithCountryIsoCode(
 			String countryIsoCode) {
-		return new CreateOrganizationCommand("orgmaster", "1234567890",
+		return new OrganizationCommand("orgmaster", "1234567890",
 				countryIsoCode, "-3");
 	}
 
-	public static CreateOrganizationCommand getCreateCommandWithNameAndIdentity(
+	public static OrganizationCommand getCreateCommandWithNameAndIdentity(
 			String name, String identity) {
-		return new CreateOrganizationCommand(name, identity, "BR", "-3");
+		return new OrganizationCommand(name, identity, "BR", "-3");
 	}
 
 }
