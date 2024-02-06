@@ -1,9 +1,9 @@
 package com.mksistemas.supply.organization.adapter.amqp;
 
-import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.Declarables;
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,21 +12,14 @@ public class OrganizationAmqpConfiguration {
 
   public static final String ORGANIZATION_EXCHANGE_NAME = "organization-exchange";
   public static final String QUEUE_NAME = "organization";
-  public static final String ORGANIZATION_KEY = "organization.#";
+
 
   @Bean
-  Queue queue() {
-    return new Queue(QUEUE_NAME, true);
-  }
+  Declarables fanoutOrganizationBindings() {
+    Queue organizationQueue = new Queue(QUEUE_NAME, true);
+    FanoutExchange organizationFanoutExchange = new FanoutExchange(ORGANIZATION_EXCHANGE_NAME);
 
-  @Bean
-  TopicExchange exchange() {
-    return new TopicExchange(ORGANIZATION_EXCHANGE_NAME, true, true);
+    return new Declarables(organizationQueue, organizationFanoutExchange,
+        BindingBuilder.bind(organizationQueue).to(organizationFanoutExchange));
   }
-
-  @Bean
-  Binding binding(Queue queue, TopicExchange exchange) {
-    return BindingBuilder.bind(queue).to(exchange).with(ORGANIZATION_KEY);
-  }
-
 }
