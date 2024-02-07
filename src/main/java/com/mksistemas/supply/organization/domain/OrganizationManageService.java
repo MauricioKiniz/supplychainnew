@@ -44,13 +44,11 @@ class OrganizationManageService
       organization.setName(name);
       verifyDuplicatedName(repository, organization);
     });
-    checkElementEquality(command.identity(), organization.getIdentity(),
-        identity -> organization.setIdentity(identity));
-    checkElementEquality(command.zoneId(), organization.getZoneId(),
-        zoneId -> organization.setZoneId(command.zoneId()));
+    checkElementEquality(command.identity(), organization.getIdentity(), organization::setIdentity);
+    checkElementEquality(command.zoneId(), organization.getZoneId(), organization::setZoneId);
     checkElementEquality(command.countryIsoCode(), organization.getCountryIsoCode(),
         countryIsoCode -> {
-          organization.setCountryIsoCode(command.countryIsoCode());
+          organization.setCountryIsoCode(countryIsoCode);
           verifyCountryIsoCode(organization);
         });
     organization.generateUpdateEvent();
