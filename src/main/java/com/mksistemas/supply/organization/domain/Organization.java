@@ -2,6 +2,7 @@ package com.mksistemas.supply.organization.domain;
 
 import org.hibernate.envers.Audited;
 import com.mksistemas.supply.shared.domain.EntityBase;
+import com.mksistemas.supply.shared.domain.EventKindEnum;
 import io.hypersistence.tsid.TSID;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -60,7 +61,13 @@ public class Organization extends EntityBase<Organization> {
   @Override
   public void generateUpdateEvent() {
     registerEvent(new OrganizationUpdateEvent(TSID.from(getId()).toLowerCase(), name, identity,
-        countryIsoCode, zoneId));
+        countryIsoCode, zoneId, EventKindEnum.UPDATE));
+  }
+
+  @Override
+  public void generateDeleteEvent() {
+    registerEvent(new OrganizationUpdateEvent(TSID.from(getId()).toLowerCase(), name, identity,
+        countryIsoCode, zoneId, EventKindEnum.REMOVE));
   }
 
 }

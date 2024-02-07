@@ -47,4 +47,6 @@ public abstract class EntityBase<TEntity extends AbstractAggregateRoot<TEntity>>
   }
 
   public abstract void generateUpdateEvent();
+
+  public abstract void generateDeleteEvent();
 }
