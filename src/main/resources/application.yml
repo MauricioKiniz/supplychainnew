@@ -4,6 +4,7 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+
   datasource:
     url: jdbc:postgresql://localhost:5432/supply
     username: postgres
@@ -15,4 +16,8 @@ spring:
     username: mkiniz
     password: foto69!!
     virtual-host: supply
+    
+logging:
+  level:
+    org.hibernate: INFO
 

@@ -1,73 +1,91 @@
 package com.mksistemas.supply.organization.domain;
 
+import org.hibernate.annotations.SoftDelete;
 import org.hibernate.envers.Audited;
+
 import com.mksistemas.supply.shared.domain.EntityBase;
 import com.mksistemas.supply.shared.domain.EventKindEnum;
+
 import io.hypersistence.tsid.TSID;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
 @Entity(name = "Organization")
 @Table(name = "organization", schema = "hub")
 @Audited
+@SoftDelete
 public class Organization extends EntityBase<Organization> {
-  private String name;
-  private String identity;
-  private String countryIsoCode;
-  private String zoneId;
+    @Column(name = "name")
+    private String name;
+    private String identity;
+    private String countryIsoCode;
+    private String zoneId;
 
-  public Organization() {}
+    public Organization() {}
 
-  public Organization(Long id, String name, String identity, String countryIsoCode, String zoneId) {
-    super(id);
-    this.name = name;
-    this.identity = identity;
-    this.countryIsoCode = countryIsoCode;
-    this.zoneId = zoneId;
-  }
+    public Organization(Long id) {
+        super(id);
+    }
 
-  public String getName() {
-    return name;
-  }
+    public Organization(Long id, String name, String identity, String countryIsoCode, String zoneId) {
+        super(id);
+        this.name = name;
+        this.identity = identity;
+        this.countryIsoCode = countryIsoCode;
+        this.zoneId = zoneId;
+    }
 
-  public void setName(String name) {
-    this.name = name;
-  }
+    public String getName() {
+        return name;
+    }
 
-  public String getIdentity() {
-    return identity;
-  }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-  public void setIdentity(String identity) {
-    this.identity = identity;
-  }
+    public String getIdentity() {
+        return identity;
+    }
 
-  public String getCountryIsoCode() {
-    return countryIsoCode;
-  }
+    public void setIdentity(String identity) {
+        this.identity = identity;
+    }
 
-  public void setCountryIsoCode(String countryIsoCode) {
-    this.countryIsoCode = countryIsoCode;
-  }
+    public String getCountryIsoCode() {
+        return countryIsoCode;
+    }
 
-  public String getZoneId() {
-    return zoneId;
-  }
+    public void setCountryIsoCode(String countryIsoCode) {
+        this.countryIsoCode = countryIsoCode;
+    }
 
-  public void setZoneId(String zoneId) {
-    this.zoneId = zoneId;
-  }
+    public String getZoneId() {
+        return zoneId;
+    }
 
-  @Override
-  public void generateUpdateEvent() {
-    registerEvent(new OrganizationUpdateEvent(TSID.from(getId()).toLowerCase(), name, identity,
-        countryIsoCode, zoneId, EventKindEnum.UPDATE));
-  }
+    public void setZoneId(String zoneId) {
+        this.zoneId = zoneId;
+    }
 
-  @Override
-  public void generateDeleteEvent() {
-    registerEvent(new OrganizationUpdateEvent(TSID.from(getId()).toLowerCase(), name, identity,
-        countryIsoCode, zoneId, EventKindEnum.REMOVE));
-  }
+    @Override
+    public void generateUpdateEvent() {
+        registerEvent(
+            new OrganizationUpdateEvent(
+                TSID.from(getId()).toLowerCase(), name, identity,
+                countryIsoCode, zoneId, EventKindEnum.UPDATE
+            )
+        );
+    }
+
+    @Override
+    public void generateDeleteEvent() {
+        registerEvent(
+            new OrganizationUpdateEvent(
+                TSID.from(getId()).toLowerCase(), name, identity,
+                countryIsoCode, zoneId, EventKindEnum.REMOVE
+            )
+        );
+    }
 
 }

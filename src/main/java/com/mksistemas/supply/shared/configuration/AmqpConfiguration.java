@@ -12,22 +12,25 @@ import io.hypersistence.tsid.TSID;
 @Configuration
 class AmqpConfiguration {
 
-  @Bean
-  RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
-    final var rabbitTemplate = new RabbitTemplate(connectionFactory);
-    rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
-    rabbitTemplate.setCorrelationDataPostProcessor((message, correlationData) -> {
-      message.getMessageProperties().setHeaders(Map.of("messageId",
-          TSID.Factory.getTsid().toLowerCase(), "timestamp", ZonedDateTime.now().toString()));
-      return correlationData;
-    });
-    return rabbitTemplate;
-  }
+    @Bean
+    RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
+        final var rabbitTemplate = new RabbitTemplate(connectionFactory);
+        rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
+        rabbitTemplate.setCorrelationDataPostProcessor((message, correlationData) -> {
+            message.getMessageProperties().setHeaders(
+                Map.of(
+                    "messageId",
+                    TSID.Factory.getTsid().toLowerCase(), "timestamp", ZonedDateTime.now().toString()
+                )
+            );
+            return correlationData;
+        });
+        return rabbitTemplate;
+    }
 
-  @Bean
-  Jackson2JsonMessageConverter producerJackson2MessageConverter() {
-    return new Jackson2JsonMessageConverter();
-  }
-
+    @Bean
+    Jackson2JsonMessageConverter producerJackson2MessageConverter() {
+        return new Jackson2JsonMessageConverter();
+    }
 
 }

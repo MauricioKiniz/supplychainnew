@@ -8,9 +8,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Configuration
 public class JacksonAutoConfiguration {
-	@Bean
-	@Primary
-	ObjectMapper objectMapper() {
-		return new ObjectMapper().registerModule(new JpaApiModule());
-	}
+    @Bean
+    @Primary
+    ObjectMapper objectMapper() {
+        return new ObjectMapper().registerModule(new JpaApiModule());
+    }
 }
