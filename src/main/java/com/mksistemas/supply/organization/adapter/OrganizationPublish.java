@@ -6,7 +6,7 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import com.mksistemas.supply.organization.adapter.amqp.OrganizationAmqpConstants;
-import com.mksistemas.supply.organization.domain.OrganizationUpdateEvent;
+import com.mksistemas.supply.organization.events.OrganizationUpdateEvent;
 
 @Component
 class OrganizationPublish {

@@ -1,0 +1,16 @@
+package com.mksistemas.supply.economicgroup.domain;
+
+import java.util.Optional;
+
+import org.springframework.data.repository.RepositoryDefinition;
+
+@RepositoryDefinition(domainClass = EconomicGroup.class, idClass = Long.class)
+public interface EconomicGroupRepository {
+
+    Optional<EconomicGroup> findOneByName(String name);
+
+    EconomicGroup save(EconomicGroup economicGroup);
+
+    Optional<EconomicGroup> findById(long id);
+
+}

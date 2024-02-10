@@ -1,4 +1,4 @@
-package com.mksistemas.supply.organization.domain;
+package com.mksistemas.supply.organization.events;
 
 import java.io.Serializable;
 import com.fasterxml.jackson.annotation.JsonProperty;

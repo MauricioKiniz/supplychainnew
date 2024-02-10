@@ -1,13 +1,11 @@
 package com.mksistemas.supply.organization.domain;
 
-import java.util.Objects;
-import java.util.function.Consumer;
-
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import com.mksistemas.supply.organization.OrganizationManagerUseCase;
 import com.mksistemas.supply.shared.domain.EntityNotFoundException;
+import com.mksistemas.supply.shared.domain.ServiceUtils;
 
 import io.hypersistence.tsid.TSID;
 import jakarta.transaction.Transactional;
@@ -45,13 +43,13 @@ class OrganizationManageService
     public Organization update(@Valid OrganizationCommand command, @Valid TSID id) {
         Organization organization = repository.findById(id.toLong())
             .orElseThrow(() -> new EntityNotFoundException("Organization not found"));
-        checkElementEquality(command.name(), organization.getName(), name -> {
+        ServiceUtils.checkElementEquality(command.name(), organization.getName(), name -> {
             verifyDuplicatedName(repository, name);
             organization.setName(name);
         });
-        checkElementEquality(command.identity(), organization.getIdentity(), organization::setIdentity);
-        checkElementEquality(command.zoneId(), organization.getZoneId(), organization::setZoneId);
-        checkElementEquality(
+        ServiceUtils.checkElementEquality(command.identity(), organization.getIdentity(), organization::setIdentity);
+        ServiceUtils.checkElementEquality(command.zoneId(), organization.getZoneId(), organization::setZoneId);
+        ServiceUtils.checkElementEquality(
             command.countryIsoCode(), organization.getCountryIsoCode(),
             countryIsoCode -> {
                 verifyCountryIsoCode(organization);
@@ -60,15 +58,6 @@ class OrganizationManageService
         );
         organization.generateUpdateEvent();
         return repository.save(organization);
-    }
-
-    private void checkElementEquality(
-        String newElement, String oldElement,
-        Consumer<String> consumer
-    ) {
-        if (Objects.nonNull(newElement) && !newElement.equals(oldElement)) {
-            consumer.accept(newElement);
-        }
     }
 
     @Override

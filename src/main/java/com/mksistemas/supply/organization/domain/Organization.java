@@ -3,11 +3,11 @@ package com.mksistemas.supply.organization.domain;
 import org.hibernate.annotations.SoftDelete;
 import org.hibernate.envers.Audited;
 
+import com.mksistemas.supply.organization.events.OrganizationUpdateEvent;
 import com.mksistemas.supply.shared.domain.EntityBase;
 import com.mksistemas.supply.shared.domain.EventKindEnum;
 
 import io.hypersistence.tsid.TSID;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 
@@ -16,7 +16,6 @@ import jakarta.persistence.Table;
 @Audited
 @SoftDelete
 public class Organization extends EntityBase<Organization> {
-    @Column(name = "name")
     private String name;
     private String identity;
     private String countryIsoCode;

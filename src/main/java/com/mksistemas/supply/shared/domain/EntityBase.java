@@ -19,7 +19,9 @@ public abstract class EntityBase<TEntity extends AbstractAggregateRoot<TEntity>>
     @Version
     private Integer version = 0;
 
-    public EntityBase() {}
+    public EntityBase() {
+        id = TSID.Factory.getTsid().toLong();
+    }
 
     public EntityBase(Long id) {
         this.id = id;
