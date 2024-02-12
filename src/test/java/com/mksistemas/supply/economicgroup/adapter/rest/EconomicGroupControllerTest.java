@@ -1,8 +1,10 @@
 package com.mksistemas.supply.economicgroup.adapter.rest;
 
 import static org.hamcrest.CoreMatchers.containsString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -17,6 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.mksistemas.supply.economicgroup.EconomicGroupDataSupplier;
 import com.mksistemas.supply.economicgroup.EconomicGroupManagerUseCase.EconomicGroupCommand;
+import com.mksistemas.supply.economicgroup.EconomicGroupManagerUseCase.EconomicGroupLinkOrganizationCommand;
 import com.mksistemas.supply.shared.library.test.BaseIntegrationTest;
 
 import io.hypersistence.tsid.TSID;
@@ -57,6 +60,60 @@ class EconomicGroupControllerTest extends BaseIntegrationTest {
                     .content(content).param("id", TSID.from(1001).toLowerCase())
             )
             .andExpect(status().isOk());
+    }
+
+    @Test
+    @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "/db/updateEconomicGroup.sql" })
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    void shouldRemoveEconomicGroup() throws Exception {
+        this.mockMvc
+            .perform(
+                delete("/api/v1/economicgroup").contentType(MediaType.APPLICATION_JSON)
+                    .param("id", TSID.from(1001).toLowerCase())
+            )
+            .andExpect(status().isOk());
+    }
+
+    @Test
+    @Sql(
+        executionPhase = ExecutionPhase.BEFORE_TEST_METHOD,
+        scripts = { "/db/createLinkEconomicGroup.sql", "/db/insertManyOrganization.sql" }
+    )
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    void shouldLinkEconomicGroup() throws Exception {
+
+        EconomicGroupLinkOrganizationCommand command = EconomicGroupDataSupplier.getSuccessLinkCommand();
+        String content = serializeCommand(command);
+
+        this.mockMvc
+            .perform(
+                post("/api/v1/economicgroup/{id}/link", TSID.from(1001).toLowerCase())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(content)
+            )
+            .andExpect(status().isOk())
+            .andDo(print());
+    }
+
+    @Test
+    @Sql(
+        executionPhase = ExecutionPhase.BEFORE_TEST_METHOD,
+        scripts = { "/db/createLinkToRemoveAllEconomicGroup.sql", "/db/insertManyOrganization.sql" }
+    )
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    void shouldRemoveAllLinkEconomicGroup() throws Exception {
+
+        EconomicGroupLinkOrganizationCommand command = EconomicGroupDataSupplier.getRemoveAllLinkCommand();
+        String content = serializeCommand(command);
+
+        this.mockMvc
+            .perform(
+                post("/api/v1/economicgroup/{id}/link", TSID.from(1001).toLowerCase())
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(content)
+            )
+            .andExpect(status().isOk())
+            .andDo(print());
     }
 
 }

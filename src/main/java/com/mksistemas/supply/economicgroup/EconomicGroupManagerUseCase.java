@@ -1,5 +1,9 @@
 package com.mksistemas.supply.economicgroup;
 
+import java.util.List;
+
+import org.springframework.lang.Nullable;
+
 import com.mksistemas.supply.economicgroup.domain.EconomicGroup;
 
 import io.hypersistence.tsid.TSID;
@@ -14,6 +18,15 @@ public interface EconomicGroupManagerUseCase {
 
     EconomicGroup update(@Valid EconomicGroupCommand command, @Valid TSID id);
 
+    EconomicGroup remove(@Valid TSID id);
+
+    EconomicGroup linkWithOrganizations(@Valid TSID id, @Valid EconomicGroupLinkOrganizationCommand linkCommand);
+
     record EconomicGroupCommand(@NotBlank String name, String description) {}
+
+    record EconomicGroupLinkOrganizationCommand(@Nullable Boolean unlinkAll,
+        @Nullable List<EconomicGroupLinkOrganizationElement> linkElements) {}
+
+    record EconomicGroupLinkOrganizationElement(@NotBlank String organizationId, boolean link) {}
 
 }

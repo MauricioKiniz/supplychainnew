@@ -17,4 +17,8 @@ public class OrganizationInEconomicGroup {
     public void addOrganizationId(String organizationId) {
         organizationIds.add(organizationId);
     }
+
+    public void clearOrganizationIds() {
+        organizationIds.clear();
+    }
 }

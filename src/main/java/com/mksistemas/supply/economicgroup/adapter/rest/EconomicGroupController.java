@@ -3,6 +3,8 @@ package com.mksistemas.supply.economicgroup.adapter.rest;
 import java.net.URI;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -46,6 +48,23 @@ public class EconomicGroupController {
     ) {
         economicgroupUseCase.update(command, id);
         return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping
+    public ResponseEntity<Void> removeEconomicGroup(
+        @RequestParam(name = "id") TSID id
+    ) {
+        economicgroupUseCase.remove(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/{id}/link")
+    public ResponseEntity<EconomicGroup> linkEconomicGroupWithOrganization(
+        @PathVariable(name = "id") TSID id,
+        @RequestBody EconomicGroupManagerUseCase.EconomicGroupLinkOrganizationCommand command
+    ) {
+        EconomicGroup economicGroup = economicgroupUseCase.linkWithOrganizations(id, command);
+        return ResponseEntity.ok(economicGroup);
     }
 
 }

@@ -1,11 +1,15 @@
 package com.mksistemas.supply.economicgroup.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
 import com.mksistemas.supply.economicgroup.EconomicGroupManagerUseCase;
 import com.mksistemas.supply.shared.domain.BusinessException;
-import com.mksistemas.supply.shared.domain.EntityNotFoundException;
 import com.mksistemas.supply.shared.domain.ServiceUtils;
 
 import io.hypersistence.tsid.TSID;
@@ -13,6 +17,7 @@ import jakarta.validation.Valid;
 
 @Service
 @Transactional
+@Validated
 class EconomicGroupManagerService implements EconomicGroupManagerUseCase {
 
     private final EconomicGroupRepository repository;
@@ -36,8 +41,7 @@ class EconomicGroupManagerService implements EconomicGroupManagerUseCase {
 
     @Override
     public EconomicGroup update(@Valid EconomicGroupCommand command, @Valid TSID id) {
-        EconomicGroup economicGroup = repository.findById(id.toLong())
-            .orElseThrow(() -> new EntityNotFoundException("Economic Group not found"));
+        EconomicGroup economicGroup = repository.getById(id.toLong());
 
         ServiceUtils.checkElementEquality(command.name(), economicGroup.getName(), name -> {
             if (repository.findOneByName(name).isPresent())
@@ -48,6 +52,62 @@ class EconomicGroupManagerService implements EconomicGroupManagerUseCase {
 
         economicGroup.generateUpdateEvent();
         return repository.save(economicGroup);
+    }
+
+    @Override
+    public EconomicGroup remove(@Valid TSID id) {
+        EconomicGroup economicGroup = repository.getById(id.toLong());
+        economicGroup.generateDeleteEvent();
+        repository.delete(economicGroup);
+        return economicGroup;
+    }
+
+    @Override
+    public EconomicGroup linkWithOrganizations(@Valid TSID id, @Valid EconomicGroupLinkOrganizationCommand linkCommand) {
+        EconomicGroup economicGroup = repository.getById(id.toLong());
+
+        if ((Objects.nonNull(linkCommand.unlinkAll())) && Boolean.FALSE.equals(linkCommand.unlinkAll())) {
+            updateOrganizationIds(linkCommand, economicGroup);
+            economicGroup.generateUpdateEvent();
+        } else {
+            economicGroup.getOrganizations().clearOrganizationIds();
+        }
+        repository.save(economicGroup);
+
+        return economicGroup;
+    }
+
+    private void updateOrganizationIds(EconomicGroupLinkOrganizationCommand linkCommand, EconomicGroup economicGroup) {
+        OrganizationInEconomicGroup organizations = Objects.nonNull(economicGroup.getOrganizations())
+            ? economicGroup.getOrganizations()
+            : new OrganizationInEconomicGroup();
+
+        List<String> ids = new ArrayList<>(
+            organizations
+                .getOrganizationIds()
+                .stream()
+                .map(String::toLowerCase)
+                .toList()
+        );
+
+        List<EconomicGroupLinkOrganizationElement> elements = Objects.nonNull(linkCommand.linkElements())
+            ? linkCommand.linkElements()
+            : List.of();
+
+        elements
+            .stream()
+            .forEach(item -> {
+                String organizationId = item.organizationId().toLowerCase();
+                if (item.link()) {
+                    if (!ids.contains(organizationId))
+                        ids.add(organizationId);
+                } else {
+                    ids.remove(organizationId);
+                }
+            });
+
+        organizations.setOrganizationIds(ids);
+        economicGroup.setOrganizations(organizations);
     }
 
 }
