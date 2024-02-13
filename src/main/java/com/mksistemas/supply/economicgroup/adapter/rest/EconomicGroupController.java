@@ -64,7 +64,13 @@ public class EconomicGroupController {
         @RequestBody EconomicGroupManagerUseCase.EconomicGroupLinkOrganizationCommand command
     ) {
         EconomicGroup economicGroup = economicgroupUseCase.linkWithOrganizations(id, command);
-        return ResponseEntity.ok(economicGroup);
+        URI location = URI.create(
+            String.format(
+                "/api/v1/economicgroup/%s",
+                economicGroup.getId().toString()
+            )
+        );
+        return ResponseEntity.created(location).build();
     }
 
 }

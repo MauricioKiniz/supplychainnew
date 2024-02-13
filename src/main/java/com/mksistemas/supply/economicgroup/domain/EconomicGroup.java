@@ -86,7 +86,9 @@ public class EconomicGroup extends EntityBase<EconomicGroup> {
 
     private EconomicGroupUpdateEvent generateEventWithKind(EventKindEnum kind) {
         OrganizationInEconomicGroupEvent organizationInEconomicGroupEvent = new OrganizationInEconomicGroupEvent(
-            (Objects.nonNull(organizations)) ? organizations.getOrganizationIds() : List.of()
+            (Objects.nonNull(organizations))
+                ? organizations.getOrganizationIdsAsString()
+                : List.of()
         );
         return new EconomicGroupUpdateEvent(
             getAsTsid().toLowerCase(), name, description, organizationInEconomicGroupEvent, kind

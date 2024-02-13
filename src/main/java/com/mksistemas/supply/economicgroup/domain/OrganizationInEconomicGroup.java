@@ -3,18 +3,29 @@ package com.mksistemas.supply.economicgroup.domain;
 import java.util.ArrayList;
 import java.util.List;
 
-public class OrganizationInEconomicGroup {
-    private List<String> organizationIds = new ArrayList<>();
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-    public List<String> getOrganizationIds() {
+import io.hypersistence.tsid.TSID;
+
+public class OrganizationInEconomicGroup {
+    private List<Long> organizationIds = new ArrayList<>();
+
+    public List<Long> getOrganizationIds() {
         return organizationIds;
     }
 
-    public void setOrganizationIds(List<String> organizationIds) {
+    @JsonIgnore
+    public List<String> getOrganizationIdsAsString() {
+        return organizationIds.isEmpty()
+            ? List.of()
+            : organizationIds.stream().map(item -> TSID.from(item).toLowerCase()).toList();
+    }
+
+    public void setOrganizationIds(List<Long> organizationIds) {
         this.organizationIds = organizationIds;
     }
 
-    public void addOrganizationId(String organizationId) {
+    public void addOrganizationId(Long organizationId) {
         organizationIds.add(organizationId);
     }
 

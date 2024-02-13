@@ -1,2 +1,2 @@
-insert INTO hub.economic_group (id, version, name, description, deleted, organizations) values (1001, 1, 'Grupo Teste', 'Bla Bla Bla', false, '{"organizationIds": ["00000000000z9", "00000000000za", "00000000000zb", "00000000000zc", "00000000000zd", "00000000000ze", "00000000000zf", "00000000000zg"]}');
+insert INTO hub.economic_group (id, version, name, description, deleted, organizations) values (1001, 1, 'Grupo Teste', 'Bla Bla Bla', false, '{"organizationIds": [1001, 1002, 1003, 1004, 1005, 1006, 1007, 1008]}');
 	

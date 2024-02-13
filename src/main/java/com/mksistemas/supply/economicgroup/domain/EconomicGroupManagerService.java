@@ -82,13 +82,7 @@ class EconomicGroupManagerService implements EconomicGroupManagerUseCase {
             ? economicGroup.getOrganizations()
             : new OrganizationInEconomicGroup();
 
-        List<String> ids = new ArrayList<>(
-            organizations
-                .getOrganizationIds()
-                .stream()
-                .map(String::toLowerCase)
-                .toList()
-        );
+        List<Long> ids = new ArrayList<>(organizations.getOrganizationIds());
 
         List<EconomicGroupLinkOrganizationElement> elements = Objects.nonNull(linkCommand.linkElements())
             ? linkCommand.linkElements()
@@ -97,10 +91,11 @@ class EconomicGroupManagerService implements EconomicGroupManagerUseCase {
         elements
             .stream()
             .forEach(item -> {
-                String organizationId = item.organizationId().toLowerCase();
+                Long organizationId = TSID.from(item.organizationId()).toLong();
                 if (item.link()) {
-                    if (!ids.contains(organizationId))
+                    if (!ids.contains(organizationId)) {
                         ids.add(organizationId);
+                    }
                 } else {
                     ids.remove(organizationId);
                 }

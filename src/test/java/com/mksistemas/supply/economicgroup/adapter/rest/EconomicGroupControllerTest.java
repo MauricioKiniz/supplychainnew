@@ -91,7 +91,7 @@ class EconomicGroupControllerTest extends BaseIntegrationTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(content)
             )
-            .andExpect(status().isOk())
+            .andExpect(status().isCreated())
             .andDo(print());
     }
 
@@ -112,7 +112,7 @@ class EconomicGroupControllerTest extends BaseIntegrationTest {
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(content)
             )
-            .andExpect(status().isOk())
+            .andExpect(status().isCreated())
             .andDo(print());
     }
 
