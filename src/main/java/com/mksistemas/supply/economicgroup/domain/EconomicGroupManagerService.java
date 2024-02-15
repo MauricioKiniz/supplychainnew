@@ -107,7 +107,15 @@ class EconomicGroupManagerService implements EconomicGroupManagerUseCase {
 
     @Override
     public void removeLink(TSID organizationId) {
-
+        final long orgId = organizationId.toLong();
+        List<Long> economicGroups = repository.findAllOrganizationByOrganizationId(orgId);
+        economicGroups.stream().forEach(item -> {
+            EconomicGroup economicGroup = repository.findById(item).orElse(null);
+            if (Objects.nonNull(economicGroup) && (economicGroup.getOrganizations().remove(orgId))) {
+                economicGroup.generateUpdateEvent();
+                repository.save(economicGroup);
+            }
+        });
     }
 
 }

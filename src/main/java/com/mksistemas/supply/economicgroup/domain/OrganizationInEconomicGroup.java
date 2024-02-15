@@ -32,4 +32,8 @@ public class OrganizationInEconomicGroup {
     public void clearOrganizationIds() {
         organizationIds.clear();
     }
+
+    public boolean remove(long id) {
+        return organizationIds.remove(id);
+    }
 }
