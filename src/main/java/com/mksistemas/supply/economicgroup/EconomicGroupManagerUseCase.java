@@ -22,6 +22,8 @@ public interface EconomicGroupManagerUseCase {
 
     EconomicGroup linkWithOrganizations(@Valid TSID id, @Valid EconomicGroupLinkOrganizationCommand linkCommand);
 
+    void removeLink(TSID organizationId);
+
     record EconomicGroupCommand(@NotBlank String name, String description) {}
 
     record EconomicGroupLinkOrganizationCommand(@Nullable Boolean unlinkAll,

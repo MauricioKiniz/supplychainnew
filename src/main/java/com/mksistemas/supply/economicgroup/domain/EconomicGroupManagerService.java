@@ -105,4 +105,9 @@ class EconomicGroupManagerService implements EconomicGroupManagerUseCase {
         economicGroup.setOrganizations(organizations);
     }
 
+    @Override
+    public void removeLink(TSID organizationId) {
+
+    }
+
 }

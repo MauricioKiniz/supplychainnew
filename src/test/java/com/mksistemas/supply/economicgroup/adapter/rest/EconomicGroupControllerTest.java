@@ -2,6 +2,7 @@ package com.mksistemas.supply.economicgroup.adapter.rest;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -113,6 +114,38 @@ class EconomicGroupControllerTest extends BaseIntegrationTest {
                     .content(content)
             )
             .andExpect(status().isCreated())
+            .andDo(print());
+    }
+
+    @Test
+    @Sql(
+        executionPhase = ExecutionPhase.BEFORE_TEST_METHOD,
+        scripts = { "/db/createLinkToRemoveAllEconomicGroup.sql", "/db/insertManyOrganization.sql" }
+    )
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    void shouldGetEconomicGroupById() throws Exception {
+        this.mockMvc
+            .perform(
+                get("/api/v1/economicgroup/{id}", TSID.from(1001).toLowerCase())
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andExpect(status().isOk())
+            .andDo(print());
+    }
+
+    @Test
+    @Sql(
+        executionPhase = ExecutionPhase.BEFORE_TEST_METHOD,
+        scripts = { "/db/insertManyEconomicGroup.sql", "/db/insertManyOrganization.sql" }
+    )
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    void shouldGetAllEconomicGroup() throws Exception {
+        this.mockMvc
+            .perform(
+                get("/api/v1/economicgroup")
+                    .contentType(MediaType.APPLICATION_JSON)
+            )
+            .andExpect(status().isOk())
             .andDo(print());
     }
 

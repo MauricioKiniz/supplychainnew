@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 class OrganizationAmqpConfiguration {
 
     @Bean
-    Declarables declarables() {
+    Declarables organizationDeclarables() {
         Queue organizationQueue = new Queue(OrganizationAmqpConstants.QUEUE_NAME, true);
         FanoutExchange organizationFanoutExchange = new FanoutExchange(
             OrganizationAmqpConstants.ORGANIZATION_EXCHANGE_NAME, true, false

@@ -17,6 +17,8 @@ public interface EconomicGroupRepository {
 
     void delete(EconomicGroup economicGroup);
 
+    //void removeOrganizationFromEconomicGroups(long organizationId);
+
     default EconomicGroup getById(long id) {
         return findById(id).orElseThrow(() -> new EntityNotFoundException("Economic Group not found"));
     }

@@ -1,0 +1,4 @@
+insert INTO hub.economic_group (id, version, name, description, deleted, organizations) values (1001, 1, 'Grupo Teste 01', 'Bla Bla 001', false, '{"organizationIds": [1001, 1002, 1003, 1004, 1005]}');
+insert INTO hub.economic_group (id, version, name, description, deleted, organizations) values (1002, 1, 'Grupo Teste 02', 'Bla Bla 002', false, '{"organizationIds": [1006, 1007]}');
+insert INTO hub.economic_group (id, version, name, description, deleted, organizations) values (1003, 1, 'Grupo Teste 03', 'Bla Bla 003', false, '{"organizationIds": [1011, 1012, 1013, 1014]}');
+insert INTO hub.economic_group (id, version, name, description, deleted, organizations) values (1004, 1, 'Grupo Teste 04', 'Bla Bla 004', false, '{"organizationIds": []}');	
