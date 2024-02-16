@@ -20,7 +20,7 @@ class OrganizationPublish {
     @EventListener
     public void onOrganizationUpdate(OrganizationUpdateEvent event) {
         rabbitTemplate.convertAndSend(
-            OrganizationAmqpConstants.ORGANIZATION_EXCHANGE_NAME,
+            OrganizationAmqpConstants.EXCHANGE_NAME,
             StringUtils.EMPTY, event
         );
     }

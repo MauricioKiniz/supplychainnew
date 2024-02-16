@@ -13,7 +13,7 @@ class OrganizationAmqpConfiguration {
     Declarables organizationDeclarables() {
         Queue organizationQueue = new Queue(OrganizationAmqpConstants.QUEUE_NAME, true);
         FanoutExchange organizationFanoutExchange = new FanoutExchange(
-            OrganizationAmqpConstants.ORGANIZATION_EXCHANGE_NAME, true, false
+            OrganizationAmqpConstants.EXCHANGE_NAME, true, false
         );
         return new Declarables(
             organizationQueue, organizationFanoutExchange

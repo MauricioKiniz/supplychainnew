@@ -19,7 +19,7 @@ class EconomicGroupAmqpConfiguration {
             EconomicGroupAmqpConstants.EXCHANGE_NAME, true, false
         );
         FanoutExchange organizationFanoutExchange = new FanoutExchange(
-            OrganizationAmqpConstants.ORGANIZATION_EXCHANGE_NAME, true, false
+            OrganizationAmqpConstants.EXCHANGE_NAME, true, false
         );
 
         return new Declarables(
