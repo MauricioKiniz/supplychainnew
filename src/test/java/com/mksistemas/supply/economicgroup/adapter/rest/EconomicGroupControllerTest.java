@@ -33,7 +33,7 @@ class EconomicGroupControllerTest extends BaseIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "classpath:db/clearDatabase.sql" })
     void shouldCreateEconomicGroup() throws Exception {
 
         EconomicGroupCommand command = EconomicGroupDataSupplier.getDefaultCommand();
@@ -48,8 +48,8 @@ class EconomicGroupControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "/db/updateEconomicGroup.sql" })
-    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "classpath:db/updateEconomicGroup.sql" })
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "classpath:db/clearDatabase.sql" })
     void shouldUpdateWholeEconomicGroup() throws Exception {
 
         EconomicGroupCommand command = EconomicGroupDataSupplier.getUpdateCommand();
@@ -64,8 +64,8 @@ class EconomicGroupControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "/db/updateEconomicGroup.sql" })
-    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "classpath:db/updateEconomicGroup.sql" })
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "classpath:db/clearDatabase.sql" })
     void shouldRemoveEconomicGroup() throws Exception {
         this.mockMvc
             .perform(
@@ -78,9 +78,9 @@ class EconomicGroupControllerTest extends BaseIntegrationTest {
     @Test
     @Sql(
         executionPhase = ExecutionPhase.BEFORE_TEST_METHOD,
-        scripts = { "/db/createLinkEconomicGroup.sql", "/db/insertManyOrganization.sql" }
+        scripts = { "classpath:db/createLinkEconomicGroup.sql", "classpath:db/insertManyOrganization.sql" }
     )
-    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "classpath:db/clearDatabase.sql" })
     void shouldLinkEconomicGroup() throws Exception {
 
         EconomicGroupLinkOrganizationCommand command = EconomicGroupDataSupplier.getSuccessLinkCommand();
@@ -99,9 +99,9 @@ class EconomicGroupControllerTest extends BaseIntegrationTest {
     @Test
     @Sql(
         executionPhase = ExecutionPhase.BEFORE_TEST_METHOD,
-        scripts = { "/db/createLinkToRemoveAllEconomicGroup.sql", "/db/insertManyOrganization.sql" }
+        scripts = { "classpath:db/createLinkToRemoveAllEconomicGroup.sql", "classpath:db/insertManyOrganization.sql" }
     )
-    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "classpath:db/clearDatabase.sql" })
     void shouldRemoveAllLinkEconomicGroup() throws Exception {
 
         EconomicGroupLinkOrganizationCommand command = EconomicGroupDataSupplier.getRemoveAllLinkCommand();
@@ -120,9 +120,9 @@ class EconomicGroupControllerTest extends BaseIntegrationTest {
     @Test
     @Sql(
         executionPhase = ExecutionPhase.BEFORE_TEST_METHOD,
-        scripts = { "/db/createLinkToRemoveAllEconomicGroup.sql", "/db/insertManyOrganization.sql" }
+        scripts = { "classpath:db/createLinkToRemoveAllEconomicGroup.sql", "classpath:db/insertManyOrganization.sql" }
     )
-    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "classpath:db/clearDatabase.sql" })
     void shouldGetEconomicGroupById() throws Exception {
         this.mockMvc
             .perform(
@@ -136,9 +136,9 @@ class EconomicGroupControllerTest extends BaseIntegrationTest {
     @Test
     @Sql(
         executionPhase = ExecutionPhase.BEFORE_TEST_METHOD,
-        scripts = { "/db/insertManyEconomicGroup.sql", "/db/insertManyOrganization.sql" }
+        scripts = { "classpath:db/insertManyEconomicGroup.sql", "classpath:db/insertManyOrganization.sql" }
     )
-    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "classpath:db/clearDatabase.sql" })
     void shouldGetAllEconomicGroup() throws Exception {
         this.mockMvc
             .perform(

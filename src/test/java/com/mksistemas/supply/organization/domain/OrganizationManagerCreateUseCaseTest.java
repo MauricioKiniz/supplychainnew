@@ -55,8 +55,10 @@ class OrganizationManagerCreateUseCaseTest {
     void createCorrectExecution() {
         testCase.commandSupplier(() -> OrganizationManagerSupplier.getDefaultCreateCommand())
             .given(command -> {
+                Organization org = new Organization();
                 when(organizationRepository.findOneByName(anyString()))
                     .thenReturn(Optional.empty());
+                when(organizationRepository.save(org)).thenReturn(org);
                 return command;
             }).then((command, response) -> {
                 verify(organizationRepository, times(1)).findOneByName(anyString());

@@ -34,7 +34,7 @@ class OrganizationControllerTest extends BaseIntegrationTest {
     private MockMvc mockMvc;
 
     @Test
-    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "classpath:db/clearDatabase.sql" })
     void shouldCreateOrganization() throws Exception {
 
         OrganizationCommand command = OrganizationManagerSupplier.getDefaultCreateCommand();
@@ -76,8 +76,8 @@ class OrganizationControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "/db/updateOrganization.sql" })
-    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "classpath:db/updateOrganization.sql" })
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "classpath:db/clearDatabase.sql" })
     void shouldUpdateWholeOrganization() throws Exception {
 
         OrganizationCommand command = OrganizationManagerSupplier.getUpdateCommandComplete();
@@ -92,8 +92,8 @@ class OrganizationControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "/db/updateOrganization.sql" })
-    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "classpath:db/updateOrganization.sql" })
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "classpath:db/clearDatabase.sql" })
     void shouldRemoveWholeOrganization() throws Exception {
 
         this.mockMvc
@@ -105,8 +105,8 @@ class OrganizationControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "/db/insertManyOrganization.sql" })
-    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "classpath:db/insertManyOrganization.sql" })
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "classpath:db/clearDatabase.sql" })
     void shouldGetAllOrganization() throws Exception {
         this.mockMvc
             .perform(
@@ -122,8 +122,8 @@ class OrganizationControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "/db/insertManyOrganization.sql" })
-    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "classpath:db/insertManyOrganization.sql" })
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "classpath:db/clearDatabase.sql" })
     void shouldGetAllWithFirstPageOrganization() throws Exception {
         this.mockMvc
             .perform(
@@ -141,8 +141,8 @@ class OrganizationControllerTest extends BaseIntegrationTest {
     }
 
     @Test
-    @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "/db/insertManyOrganization.sql" })
-    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "/db/clearDatabase.sql" })
+    @Sql(executionPhase = ExecutionPhase.BEFORE_TEST_METHOD, scripts = { "classpath:db/insertManyOrganization.sql" })
+    @Sql(executionPhase = ExecutionPhase.AFTER_TEST_METHOD, scripts = { "classpath:db/clearDatabase.sql" })
     void shouldGetAllWithSecondPageOrganization() throws Exception {
         this.mockMvc
             .perform(
